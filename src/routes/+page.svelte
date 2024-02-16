@@ -1,3 +1,23 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import DatePickerScroller from "$lib/DatePickerScroller/DatePickerScroller.svelte";
+    let selectedDate: Date;
+
+    function onDateSelection(e: CustomEvent<Date>) {
+        selectedDate = e.detail;
+    }
+
+</script>
+<h1>DatePickerScroller Demo</h1>
+
+<div class="scroller-container">
+    <DatePickerScroller on:selection={onDateSelection} />
+</div>
+
+<p>Selected Date: {selectedDate?.toLocaleString()}</p>
+
+<style>
+    .scroller-container {
+        border: 1px solid gray;
+        border-radius: 4px;
+    }
+</style>
