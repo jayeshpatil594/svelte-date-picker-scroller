@@ -1,4 +1,58 @@
-# create-svelte
+# svelte-date-picker-scroller
+
+A simple svelte scrollable date picker component. A native ios/android like date picker for the web.
+
+## Usage
+Add it to your svelte project:
+```shell
+$ npm i svelte-date-component --save
+```
+
+Then, pop it into the component that suites you:
+```html
+<script>
+	import DatePickerScroller from 'svelte-date-picker-scroller';
+</script>
+
+<DatePickerScroller />
+```
+### Props
+
+| Property          | Type                                              | Required?  | Description  |
+| :---------------- | :------------------------------------------------ | :-------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| selectedDate             | `Date`                             |          | Initial selected date to which the date picker will auto scroll to on mount                                                                                                                                                                                                                                                                                                                      |
+| maxDate            |  `Date`                              |          | Max date that can be picked                                                                                                                                                                                                                                                                                                                       |
+| minDate         | `Date`                                          |          | Min date that can be picked                                                                                                                                                                                                                                                                                                                                                                                                |
+| noOfVisibleRows          | `number` |          | No of rows that need to be visible in the date picker window                                                                                                                                                                                                            |
+| rowItemHeight   | `number`                                          |           | Row item height in px.                                                                                                                                                                                                                                                                                                                           |
+| rowItemStyles      | `object`                                          |           | Row item custom style object                                                                                                                                                                                                                                                                                                                                            |
+| activeRowItemStyles     | `object`                                          |           | Active row item custom style object                                                                                                                                                                                                                                                                                                                                                                         |
+
+### Slots
+
+- `day` - Slot for rendering day text
+  - Props:
+    - `day: number` - day index (-1 for filler(empty item))
+- `month` - Slot for rendering month text
+  - Props:
+    - `month: number` - month index (-1 for filler(empty item))
+- `year` - Slot for rendering year text
+  - Props:
+    - `year: number` - year (-1 for filler(empty item))
+- `activeRowHighlighter` - Slot for the active row highlight overlay
+
+### Events
+
+- `selection` - Fired after any of the (day/month/year) selection changes.
+  - `detail` Props type: `Date` 
+
+
+## Bugs
+Found an problem? [Submit an issue](https://github.com/jayeshpatil594/svelte-date-picker-scroller/issues/new)
+
+## This project was built using:
+
+## create-svelte
 
 Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
