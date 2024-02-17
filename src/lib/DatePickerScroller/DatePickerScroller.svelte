@@ -68,22 +68,23 @@
 		})();
 	});
 
-	function handleClick(
-		containerRef: HTMLUListElement,
-		selectedColumn: string,
-		selectedValue: number
-	) {
-		if (selectedColumn === COLUMNS.DAY) {
-			selectedDay = selectedValue;
-			scrollIntoView(containerRef, `${DAY_PREFIX}${selectedValue}`);
-		} else if (selectedColumn === COLUMNS.MONTH) {
-			selectedMonth = selectedValue;
-			scrollIntoView(containerRef, `${MONTH_PREFIX}${selectedValue}`);
-		} else {
-			selectedYear = selectedValue;
-			scrollIntoView(containerRef, `${YEAR_PREFIX}${selectedValue}`);
+	function handleClick(event: MouseEvent, selectedColumn: string) {
+		const target = event.target as HTMLElement;
+		const value = target.dataset.value;
+		if (value && parseInt(value) !== fillerValue) {
+			const selectedValue = parseInt(value);
+			if (selectedColumn === COLUMNS.DAY) {
+				selectedDay = selectedValue;
+				scrollIntoView(dayContainerRef, `${DAY_PREFIX}${selectedValue}`);
+			} else if (selectedColumn === COLUMNS.MONTH) {
+				selectedMonth = selectedValue;
+				scrollIntoView(monthContainerRef, `${MONTH_PREFIX}${selectedValue}`);
+			} else {
+				selectedYear = selectedValue;
+				scrollIntoView(yearContainerRef, `${YEAR_PREFIX}${selectedValue}`);
+			}
+			dispatch('selection', new Date(selectedYear, selectedMonth, selectedDay));
 		}
-		dispatch('selection', new Date(selectedYear, selectedMonth, selectedDay));
 	}
 
 	function updateNoOfDays(selectedMonth: number, selectedYear: number, maxDate: Date) {
@@ -118,7 +119,7 @@
 	}
 
 	function scrollIntoView(container: HTMLUListElement, selectedValue: string) {
-		const selectedItem = container.querySelector(`[data-value="${selectedValue}"]`);
+		const selectedItem = container.querySelector(`[data-id="${selectedValue}"]`);
 		if (selectedItem) {
 			if (scrollIntoViewPolyfill && !isScrollBehaviorSupported()) {
 				scrollIntoViewPolyfill(selectedItem, {
@@ -133,18 +134,19 @@
 </script>
 
 <div class="scroller-container" style={`height: ${scrollerContainerHeight}px;`}>
+	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<ul
 		class="column"
 		bind:this={dayContainerRef}
 		on:scroll={(e) => debouncedScrollHandler(e, COLUMNS.DAY)}
+		on:click={(e) => handleClick(e, COLUMNS.DAY)}
+		on:keydown
 	>
 		{#each daysArr as day}
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
 				class={`row-item ${selectedDay === day ? 'active-row-item' : ''}`}
-				data-value={`${DAY_PREFIX}${day}`}
-				on:click={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
-				on:keydown={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
+				data-id={`${DAY_PREFIX}${day}`}
+				data-value={day}
 				style={`min-height: ${rowItemHeight}px; ${selectedDay === day ? customActiveRowItemStyles : customRowItemStyles}`}
 			>
 				<slot name="day" {day}>
@@ -154,18 +156,19 @@
 		{/each}
 	</ul>
 
+	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<ul
 		class="column"
 		bind:this={monthContainerRef}
 		on:scroll={(e) => debouncedScrollHandler(e, COLUMNS.MONTH)}
+		on:click={(e) => handleClick(e, COLUMNS.MONTH)}
+		on:keydown
 	>
 		{#each monthsArr as month}
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
 				class={`row-item ${selectedMonth === month ? 'active-row-item' : ''}`}
-				data-value={`${MONTH_PREFIX}${month}`}
-				on:click={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
-				on:keydown={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
+				data-id={`${MONTH_PREFIX}${month}`}
+				data-value={month}
 				style={`min-height: ${rowItemHeight}px; ${selectedMonth === month ? customActiveRowItemStyles : customRowItemStyles}`}
 			>
 				<slot name="month" {month}>
@@ -175,18 +178,19 @@
 		{/each}
 	</ul>
 
+	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<ul
 		class="column"
 		bind:this={yearContainerRef}
 		on:scroll={(e) => debouncedScrollHandler(e, COLUMNS.YEAR)}
+		on:click={(e) => handleClick(e, COLUMNS.YEAR)}
+		on:keydown
 	>
 		{#each yearsArr as year}
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
 				class={`row-item ${selectedYear === year ? 'active-row-item' : ''}`}
-				data-value={`${YEAR_PREFIX}${year}`}
-				on:click={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
-				on:keydown={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
+				data-id={`${YEAR_PREFIX}${year}`}
+				data-value={year}
 				style={`min-height: ${rowItemHeight}px; ${selectedYear === year ? customActiveRowItemStyles : customRowItemStyles}`}
 			>
 				<slot name="year" {year}>
