@@ -44,7 +44,7 @@ Then, pop it into the component that suites you:
 ### Events
 
 - `selection` - Fired after any of the (day/month/year) selection changes.
-  - `detail` Props type: `Date` 
+  - `detail` type: `Date` 
 
 
 ## Bugs
