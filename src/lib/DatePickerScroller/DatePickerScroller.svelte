@@ -232,10 +232,6 @@
 	.active-row-highlighter {
 		position: absolute;
 		width: 100%;
-		background-color: blue;
-		pointer-events: none;
-		opacity: 0.2;
-		border-radius: 2rem;
 	}
 
 	.active-row-item {
