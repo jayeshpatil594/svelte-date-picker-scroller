@@ -8,6 +8,7 @@
 	export let minDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() - 10));
 	export let noOfVisibleRows: number = 5;
 	export let rowItemHeight: number = 38;
+	const SCROLL_DEBOUNCE_DELAY = 300;
 
 	const dispatch = createEventDispatcher();
 
@@ -44,7 +45,7 @@
 
 	const debouncedScrollHandler = debounce((e: UIEvent, selectedCol: string) => {
 		handleScroll(e, selectedCol);
-	}, 300);
+	}, SCROLL_DEBOUNCE_DELAY);
 
 	onMount(() => {
 		(async () => {
@@ -90,14 +91,13 @@
 
 	function handleScroll(e: UIEvent, selectedCol: string) {
 		const element = e.target as HTMLElement;
-		const itemIndex = element.scrollTop / rowItemHeight;
-
+		const itemIndex = Math.round(element.scrollTop / rowItemHeight);
 		if (selectedCol === COLUMNS.DAY) {
-			selectedDay = Math.round(itemIndex) + 1;
+			selectedDay = itemIndex + 1;
 		} else if (selectedCol === COLUMNS.MONTH) {
-			selectedMonth = Math.round(itemIndex);
+			selectedMonth = itemIndex;
 		} else {
-			selectedYear = Math.round(itemIndex) + minYear;
+			selectedYear = itemIndex + minYear;
 		}
 		updateNoOfDays(selectedMonth, selectedYear, maxDate);
 		updateNoOfMonths(selectedYear, maxDate);
@@ -128,7 +128,7 @@
 		{#each daysArr as day}
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
-				class={`rowItem ${selectedDay === day ? 'active-row-item' : ''}`}
+				class={`row-item ${selectedDay === day ? 'active-row-item' : ''}`}
 				data-value={`${DAY_PREFIX}${day}`}
 				on:click={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
 				on:keydown={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
@@ -147,7 +147,7 @@
 		{#each monthsArr as month}
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
-				class={`rowItem ${selectedMonth === month ? 'active-row-item' : ''}`}
+				class={`row-item ${selectedMonth === month ? 'active-row-item' : ''}`}
 				data-value={`${MONTH_PREFIX}${month}`}
 				on:click={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
 				on:keydown={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
@@ -166,7 +166,7 @@
 		{#each yearsArr as year}
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
-				class={`rowItem ${selectedYear === year ? 'active-row-item' : ''}`}
+				class={`row-item ${selectedYear === year ? 'active-row-item' : ''}`}
 				data-value={`${YEAR_PREFIX}${year}`}
 				on:click={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
 				on:keydown={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
@@ -177,7 +177,7 @@
 		{/each}
 	</ul>
 	<div
-		class="active-row-highlighter bg-background_base"
+		class="active-row-highlighter"
 		style={`height: ${rowItemHeight}px; top: ${rowItemHeight * Math.floor(noOfVisibleRows / 2)}px`}
 	/>
 </div>
@@ -211,7 +211,7 @@
 		scrollbar-width: none; /* Firefox */
 	}
 
-	.rowItem {
+	.row-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
