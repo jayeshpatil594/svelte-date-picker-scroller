@@ -134,7 +134,9 @@
 				on:keydown={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
 				style={`min-height: ${rowItemHeight}px;`}
 			>
-				{day === fillerValue ? '' : day}
+				<slot name="day" {day}>
+					{day === fillerValue ? '' : day}
+				</slot>
 			</li>
 		{/each}
 	</ul>
@@ -153,7 +155,9 @@
 				on:keydown={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
 				style={`min-height: ${rowItemHeight}px;`}
 			>
-				{month === fillerValue ? '' : MONTHS[month]}
+				<slot name="month" {month}>
+					{month === fillerValue ? '' : MONTHS[month]}
+				</slot>
 			</li>
 		{/each}
 	</ul>
@@ -172,14 +176,18 @@
 				on:keydown={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
 				style={`min-height: ${rowItemHeight}px;`}
 			>
-				{year === fillerValue ? '' : year}
+				<slot name="year" {year}>
+					{year === fillerValue ? '' : year}
+				</slot>
 			</li>
 		{/each}
 	</ul>
 	<div
 		class="active-row-highlighter"
 		style={`height: ${rowItemHeight}px; top: ${rowItemHeight * Math.floor(noOfVisibleRows / 2)}px`}
-	/>
+	>
+		<slot name="activeRowHighlighter" />
+	</div>
 </div>
 
 <style>

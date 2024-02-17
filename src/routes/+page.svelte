@@ -10,7 +10,7 @@
 <h3>DatePickerScroller Demo</h3>
 
 <div class="scroller-container">
-	<DatePickerScroller on:selection={onDateSelection} />
+	<DatePickerScroller on:selection={onDateSelection}></DatePickerScroller>
 </div>
 
 <p style="font-weight: bold;">Selected Date: {selectedDate?.toLocaleString()}</p>
@@ -19,6 +19,6 @@
 	.scroller-container {
 		border: 1px solid gray;
 		border-radius: 4px;
-        padding: 0.5rem;
+		padding: 0.5rem;
 	}
 </style>
