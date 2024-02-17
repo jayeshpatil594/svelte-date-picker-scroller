@@ -27,12 +27,3 @@ export function debounce<F extends AnyFunction>(
 export function daysInMonth(month: number, year: number) {
 	return new Date(year, month + 1, 0).getDate();
 }
-
-// function calculateOpacity(value: number, selectedValue: number) {
-// 	const distance = Math.abs(value - selectedValue);
-// 	if (distance <= Math.floor(noOfVisibleRows / 2)) {
-// 		const opacity = distance * 0.3;
-// 		return 1 - opacity;
-// 	}
-// 	return 0.5;
-// }

@@ -8,6 +8,15 @@
 	export let minDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() - 10));
 	export let noOfVisibleRows: number = 5;
 	export let rowItemHeight: number = 38;
+	export let rowItemStyles = {};
+	export let activeRowItemStyles = {};
+	$: customRowItemStyles = Object.entries(rowItemStyles)
+		.map(([key, value]) => `${key}:${value}`)
+		.join(';');
+	$: customActiveRowItemStyles = Object.entries(activeRowItemStyles)
+		.map(([key, value]) => `${key}:${value}`)
+		.join(';');
+
 	const SCROLL_DEBOUNCE_DELAY = 300;
 
 	const dispatch = createEventDispatcher();
@@ -43,8 +52,8 @@
 	let monthContainerRef: HTMLUListElement;
 	let yearContainerRef: HTMLUListElement;
 
-	const debouncedScrollHandler = debounce((e: UIEvent, selectedCol: string) => {
-		handleScroll(e, selectedCol);
+	const debouncedScrollHandler = debounce((e: UIEvent, selectedColumn: string) => {
+		handleScroll(e, selectedColumn);
 	}, SCROLL_DEBOUNCE_DELAY);
 
 	onMount(() => {
@@ -59,11 +68,15 @@
 		})();
 	});
 
-	function handleClick(containerRef: HTMLUListElement, selectedCol: string, selectedValue: number) {
-		if (selectedCol === COLUMNS.DAY) {
+	function handleClick(
+		containerRef: HTMLUListElement,
+		selectedColumn: string,
+		selectedValue: number
+	) {
+		if (selectedColumn === COLUMNS.DAY) {
 			selectedDay = selectedValue;
 			scrollIntoView(containerRef, `${DAY_PREFIX}${selectedValue}`);
-		} else if (selectedCol === COLUMNS.MONTH) {
+		} else if (selectedColumn === COLUMNS.MONTH) {
 			selectedMonth = selectedValue;
 			scrollIntoView(containerRef, `${MONTH_PREFIX}${selectedValue}`);
 		} else {
@@ -89,12 +102,12 @@
 		}
 	}
 
-	function handleScroll(e: UIEvent, selectedCol: string) {
+	function handleScroll(e: UIEvent, selectedColumn: string) {
 		const element = e.target as HTMLElement;
 		const itemIndex = Math.round(element.scrollTop / rowItemHeight);
-		if (selectedCol === COLUMNS.DAY) {
+		if (selectedColumn === COLUMNS.DAY) {
 			selectedDay = itemIndex + 1;
-		} else if (selectedCol === COLUMNS.MONTH) {
+		} else if (selectedColumn === COLUMNS.MONTH) {
 			selectedMonth = itemIndex;
 		} else {
 			selectedYear = itemIndex + minYear;
@@ -132,7 +145,7 @@
 				data-value={`${DAY_PREFIX}${day}`}
 				on:click={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
 				on:keydown={() => handleClick(dayContainerRef, COLUMNS.DAY, day)}
-				style={`min-height: ${rowItemHeight}px;`}
+				style={`min-height: ${rowItemHeight}px; ${selectedDay === day ? customActiveRowItemStyles : customRowItemStyles}`}
 			>
 				<slot name="day" {day}>
 					{day === fillerValue ? '' : day}
@@ -153,7 +166,7 @@
 				data-value={`${MONTH_PREFIX}${month}`}
 				on:click={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
 				on:keydown={() => handleClick(monthContainerRef, COLUMNS.MONTH, month)}
-				style={`min-height: ${rowItemHeight}px;`}
+				style={`min-height: ${rowItemHeight}px; ${selectedMonth === month ? customActiveRowItemStyles : customRowItemStyles}`}
 			>
 				<slot name="month" {month}>
 					{month === fillerValue ? '' : MONTHS[month]}
@@ -174,7 +187,7 @@
 				data-value={`${YEAR_PREFIX}${year}`}
 				on:click={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
 				on:keydown={() => handleClick(yearContainerRef, COLUMNS.YEAR, year)}
-				style={`min-height: ${rowItemHeight}px;`}
+				style={`min-height: ${rowItemHeight}px; ${selectedYear === year ? customActiveRowItemStyles : customRowItemStyles}`}
 			>
 				<slot name="year" {year}>
 					{year === fillerValue ? '' : year}
