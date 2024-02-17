@@ -1,6 +1,11 @@
 {
 	"name": "svelte-date-picker-scroller",
+	"author": {
+		"name": "Jayesh Patil",
+		"email": "jp95849@gmail.com"
+	},
 	"version": "0.0.1",
+	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
