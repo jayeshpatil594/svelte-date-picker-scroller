@@ -1,11 +1,30 @@
 {
 	"name": "svelte-date-picker-scroller",
+	"description": "A simple svelte scrollable date picker component. A native ios/android like date picker for the web",
 	"author": {
 		"name": "Jayesh Patil",
-		"email": "jp95849@gmail.com"
+		"email": "jp95849@gmail.com",
+		"url": "https://github.com/jayeshpatil594"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jayeshpatil594/svelte-date-picker-scroller.git"
+	},
+	"homepage": "https://github.com/jayeshpatil594/svelte-date-picker-scroller",
+	"bugs": {
+		"url": "https://github.com/jayeshpatil594/svelte-date-picker-scroller/issues"
 	},
 	"version": "0.0.1",
 	"license": "MIT",
+	"keywords": [
+		"svelte",
+		"date",
+		"date-picker",
+		"scrollable-date-picker",
+		"date-picker-scroller",
+		"automatic",
+		"component"
+	],
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
