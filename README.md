@@ -2,6 +2,14 @@
 
 A simple svelte scrollable date picker component. A native ios/android like date picker for the web.
 
+![image](https://github.com/jayeshpatil594/svelte-date-picker-scroller/assets/49228384/259bd44b-04e2-4177-812d-d692c87c4f23)
+
+### Features
+- Tiny - only ~4.5kb gziped.
+- Supports min / max date.
+- Snappy scroll.
+- Customizable.
+
 ## Usage
 Add it to your svelte project:
 ```shell
@@ -44,11 +52,11 @@ Then, pop it into the component that suites you:
 ### Events
 
 - `selection` - Fired after any of the (day/month/year) selection changes.
-  - `detail` type: `Date` 
-
+  - `detail` type: `Date`
 
 ## Bugs
 Found an problem? [Submit an issue](https://github.com/jayeshpatil594/svelte-date-picker-scroller/issues/new)
+
 
 ## This project was built using:
 
