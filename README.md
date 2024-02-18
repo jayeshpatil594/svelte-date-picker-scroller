@@ -5,7 +5,7 @@ A simple svelte scrollable date picker component. A native ios/android like date
 ## Usage
 Add it to your svelte project:
 ```shell
-$ npm i svelte-date-component --save
+$ npm i svelte-date-picker-scroller --save
 ```
 
 Then, pop it into the component that suites you:
