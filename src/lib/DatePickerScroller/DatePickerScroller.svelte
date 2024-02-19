@@ -90,6 +90,8 @@
 	function updateNoOfDays(selectedMonth: number, selectedYear: number, maxDate: Date) {
 		if (selectedYear === maxDate.getFullYear() && selectedMonth === maxDate.getMonth()) {
 			noOfDays = maxDate.getDate();
+		} else if (selectedYear === minDate.getFullYear() && selectedMonth === minDate.getMonth()) {
+			noOfDays = minDate.getDate();
 		} else {
 			noOfDays = daysInMonth(selectedMonth, selectedYear);
 		}
@@ -98,6 +100,8 @@
 	function updateNoOfMonths(selectedYear: number, maxDate: Date) {
 		if (selectedYear === maxDate.getFullYear()) {
 			noOfMonths = maxDate.getMonth() + 1;
+		} else if (selectedYear === minDate.getFullYear()) {
+			noOfMonths = minDate.getMonth() + 1;
 		} else {
 			noOfMonths = 12;
 		}
